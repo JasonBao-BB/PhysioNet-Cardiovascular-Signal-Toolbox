@@ -23,6 +23,8 @@
 %       more information
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+profile on
 clear all
 clc
 
@@ -62,10 +64,11 @@ r_peaks = jqrs(ecg,HRVparams);
 % plot the detected r_peaks on the top of the ecg signal
 figure(1)
 hold on;
-plot(r_peaks./Fs, ecg(r_peaks),'o');
+plot(r_peaks./Fs, ecg(r_peaks),'ro');
 legend('ecg signal', 'detected R peaks')
 
-
+profile viewer
+profsave
 
 
 
