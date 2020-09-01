@@ -23,8 +23,6 @@
 %       more information
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-profile on
 clear all
 clc
 
@@ -64,13 +62,39 @@ r_peaks = jqrs(ecg,HRVparams);
 % plot the detected r_peaks on the top of the ecg signal
 figure(1)
 hold on;
-plot(r_peaks./Fs, ecg(r_peaks),'ro');
+plot(r_peaks./Fs, ecg(r_peaks),'o');
 legend('ecg signal', 'detected R peaks')
 
-profile viewer
-profsave
+%%%%%%%%%%%%%% COMMENTS %%%%%%%%%%%%%%
+% Author Boyang Bao
+% BMI 500 Homework
+% Line up peaks and Estimate periodicity
 
+%%%%%%%%%%%%%% LINE UP PEAKS %%%%%%%%%%%%%%
+% Sample of signal in 1/2 second
+sample = 0.5 * HRVparams.Fs;
+% Create matrix of peaks
+peaks_array = zeros(length(r_peaks) - 2, 2 * sample + 1);
+% Draw the peaks
+figure, hold on
+title('Line Up Peaks');
+xlabel('[s]');
+xticks([0 sample 2 * sample + 1])
+xticklabels({'0','0.5','1','1.5'})
+ylabel('[mV]')
+for i= 1 : length(r_peaks)-1
+     peaks_array(i,:) = ecg(r_peaks(i) - sample : r_peaks(i) + sample);
+     plot(peaks_array(i,:));
+end
 
-
+%%%%%%%%%%%%%% ESTIMATE THE PERIODICITY %%%%%%%%%%%%%%
+% Calculate beats per second
+difference = r_peaks(1 , 2 : end) ./ Fs - r_peaks(1,1:end-1) ./ Fs;
+% Calculate average about the distance of contiguous peaks
+tmp = (sum(difference) / length(difference));
+% Calculate the periodicity
+periodicity = 1 / tmp;%Estimated periodicity(HR(beats/sec)) is simply the inverse of an average over distance of contiguous peaks
+% Print out
+display(periodicity)
 
 
