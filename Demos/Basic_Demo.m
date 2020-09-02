@@ -66,7 +66,7 @@ plot(r_peaks./Fs, ecg(r_peaks),'o');
 legend('ecg signal', 'detected R peaks')
 
 %%%%%%%%%%%%%% COMMENTS %%%%%%%%%%%%%%
-% Author Boyang Bao
+% Author by Boyang Bao 09/01/2020
 % BMI 500 Homework
 % Line up peaks and Estimate periodicity
 
@@ -93,8 +93,8 @@ difference = r_peaks(1 , 2 : end) ./ Fs - r_peaks(1,1:end-1) ./ Fs;
 % Calculate average about the distance of contiguous peaks
 tmp = (sum(difference) / length(difference));
 % Calculate the periodicity
-periodicity = 1 / tmp;%Estimated periodicity(HR(beats/sec)) is simply the inverse of an average over distance of contiguous peaks
+periodicity = 1 / tmp;
 % Print out
-display(periodicity)
+fprintf("%f",periodicity)
 
 
